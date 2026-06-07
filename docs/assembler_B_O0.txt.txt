@@ -1,0 +1,88 @@
+: main:
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 160
+        mov     DWORD PTR [rbp-28], 4
+        mov     DWORD PTR [rbp-4], 0
+        jmp     .L2
+.L5:
+        mov     DWORD PTR [rbp-8], 0
+        jmp     .L3
+.L4:
+        mov     eax, DWORD PTR [rbp-4]
+        lea     edx, [0+rax*4]
+        mov     eax, DWORD PTR [rbp-8]
+        add     edx, eax
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     ecx, DWORD PTR [rbp-4]
+        movsx   rcx, ecx
+        sal     rcx, 2
+        add     rax, rcx
+        mov     DWORD PTR [rbp-96+rax*4], edx
+        add     DWORD PTR [rbp-8], 1
+.L3:
+        cmp     DWORD PTR [rbp-8], 3
+        jle     .L4
+        add     DWORD PTR [rbp-4], 1
+.L2:
+        cmp     DWORD PTR [rbp-4], 3
+        jle     .L5
+        mov     DWORD PTR [rbp-12], 0
+        jmp     .L6
+.L13:
+        mov     DWORD PTR [rbp-16], 0
+        jmp     .L7
+.L12:
+        mov     eax, DWORD PTR [rbp-12]
+        mov     DWORD PTR [rbp-20], eax
+        jmp     .L8
+.L11:
+        mov     eax, DWORD PTR [rbp-16]
+        mov     DWORD PTR [rbp-24], eax
+        jmp     .L9
+.L10:
+        mov     eax, DWORD PTR [rbp-24]
+        cdqe
+        mov     edx, DWORD PTR [rbp-20]
+        movsx   rdx, edx
+        sal     rdx, 2
+        add     rax, rdx
+        mov     eax, DWORD PTR [rbp-96+rax*4]
+        mov     edx, DWORD PTR [rbp-20]
+        movsx   rdx, edx
+        mov     ecx, DWORD PTR [rbp-24]
+        movsx   rcx, ecx
+        sal     rcx, 2
+        add     rdx, rcx
+        mov     DWORD PTR [rbp-160+rdx*4], eax
+        add     DWORD PTR [rbp-24], 1
+.L9:
+        mov     eax, DWORD PTR [rbp-16]
+        add     eax, 1
+        cmp     DWORD PTR [rbp-24], eax
+        jle     .L10
+        add     DWORD PTR [rbp-20], 1
+.L8:
+        mov     eax, DWORD PTR [rbp-12]
+        add     eax, 1
+        cmp     DWORD PTR [rbp-20], eax
+        jle     .L11
+        add     DWORD PTR [rbp-16], 2
+.L7:
+        cmp     DWORD PTR [rbp-16], 3
+        jle     .L12
+        add     DWORD PTR [rbp-12], 2
+.L6:
+        cmp     DWORD PTR [rbp-12], 3
+        jle     .L13
+        mov     eax, DWORD PTR [rbp-160]
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:std::cout
+        call    std::ostream::operator<<(int)
+        mov     esi, OFFSET FLAT:std::basic_ostream<char, std::char_traits<char>>& std::endl<char, std::char_traits<char>>(std::basic_ostream<char, std::char_traits<char>>&)
+        mov     rdi, rax
+        call    std::ostream::operator<<(std::ostream& (*)(std::ostream&))
+        mov     eax, 0
+        leave
+        ret

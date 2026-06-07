@@ -1,0 +1,1 @@
+g++ src/benchmark.cpp src/algoritmo_A.cpp src/algoritmo_B.cpp -O3 -o programa_O3.exe

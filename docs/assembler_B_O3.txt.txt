@@ -1,0 +1,37 @@
+        push    rbx
+        mov     edi, OFFSET FLAT:std::cout
+        xor     esi, esi
+        sub     rsp, 16
+        call    std::ostream::operator<<(int)
+        mov     rbx, rax
+        mov     rax, QWORD PTR [rax]
+        mov     rax, QWORD PTR [rax-24]
+        mov     rdi, QWORD PTR [rbx+240+rax]
+        test    rdi, rdi
+        je      .L9
+        cmp     BYTE PTR [rdi+56], 0
+        je      .L5
+        movzx   eax, BYTE PTR [rdi+67]
+.L6:
+        mov     rdi, rbx
+        movsx   esi, al
+        call    std::ostream::put(char)
+        mov     rdi, rax
+        call    std::ostream::flush()
+        add     rsp, 16
+        xor     eax, eax
+        pop     rbx
+        ret
+.L5:
+        mov     QWORD PTR [rsp+8], rdi
+        call    std::ctype<char>::_M_widen_init() const
+        mov     rdi, QWORD PTR [rsp+8]
+        mov     rax, QWORD PTR [rdi]
+        mov     rdx, QWORD PTR [rax+48]
+        mov     eax, 10
+        cmp     rdx, OFFSET FLAT:_ZNKSt5ctypeIcE8do_widenEc
+        je      .L6
+        mov     esi, 10
+        call    rdx
+        jmp     .L6
+main.cold:
